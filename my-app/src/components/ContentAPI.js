@@ -1,49 +1,45 @@
-// ContentAPI.js
 import React, { Component } from "react";
 import axios from "axios";
-import { API_KEY } from "./secrets.js";
 import PostItemAPI from "./PostItemAPI";
+import { API_KEY } from "./secrets";
 
 class ContentAPI extends Component {
   state = {
     isLoaded: false,
     posts: [],
     savedPosts: [],
-    searchTerm: "",
   };
 
   componentDidMount() {
     this.fetchImages();
   }
 
-  fetchImages = async () => {
+  async fetchImages() {
     try {
       const response = await axios.get(
-        `https://pixabay.com/api/?key=${API_KEY}&per_page=100`
+        `https://api.example.com/posts?key=${API_KEY}&limit=100`
       );
-      const fetchedPosts = response.data.hits;
+      const fetchedPosts = response.data.hits; // Adjust the path based on your API structure
       this.setState({
         isLoaded: true,
         posts: fetchedPosts,
         savedPosts: fetchedPosts,
       });
     } catch (error) {
-      console.error("Error fetching images:", error);
+      console.error("Error fetching data:", error);
     }
-  };
+  }
 
   handleChange = (event) => {
     const name = event.target.value.toLowerCase();
-    this.setState({ searchTerm: name });
-    this.setState({
-      posts: this.state.savedPosts.filter((post) =>
-        post.user.toLowerCase().includes(name)
-      ),
-    });
+    const filteredPosts = this.state.savedPosts.filter(
+      (post) => post.user.toLowerCase().includes(name) // Assuming `user` is the field we're filtering on
+    );
+    this.setState({ posts: filteredPosts });
   };
 
   render() {
-    const { isLoaded, posts, searchTerm } = this.state;
+    const { isLoaded, posts } = this.state;
 
     if (!isLoaded) {
       return <div>Loading...</div>;
@@ -53,13 +49,12 @@ class ContentAPI extends Component {
       <div>
         <input
           type="text"
-          placeholder="Search by user"
-          value={searchTerm}
           onChange={this.handleChange}
+          placeholder="Search..."
         />
-        <div className="content">
+        <div>
           {posts.map((post) => (
-            <PostItemAPI key={post.id} post={post} />
+            <PostItemAPI key={post.id} post={post} /> // Use the appropriate property
           ))}
         </div>
       </div>
