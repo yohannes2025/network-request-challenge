@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import PostItemAPI from "./PostItemAPI";
+import PostItemAPI from "./css/PostItemAPI";
 import { API_KEY } from "./secrets";
 
 class ContentAPI extends Component {
