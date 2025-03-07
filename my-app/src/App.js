@@ -1,7 +1,7 @@
 // ContentAPI.js
 import React, { Component } from "react";
 import axios from "axios";
-import { 49216179-c7bcf36ce3a8b7d8768f7f9e0 } from "./secrets.js";
+import { API_KEY } from "./secrets.js";
 import PostItemAPI from "./PostItemAPI";
 
 class ContentAPI extends Component {
